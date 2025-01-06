@@ -22,18 +22,18 @@
 # SOFTWARE.
 
 
-from PySide2.QtCore import (QBuffer, QEvent, QIODevice, QRegExp, Qt,  # QTimer,
+from PySide6.QtCore import (QBuffer, QEvent, QIODevice, QRegularExpression, Qt,  # QTimer,
                             QPoint, QPointF, QRectF, QSize, QSizeF, QRect,
-                            Signal)  # PySide2
-from PySide2.QtWidgets import (QAbstractSpinBox, QApplication, QColorDialog,
+                            Signal)  # PySide6
+from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QColorDialog,
                                QComboBox, QDialog, QGraphicsPixmapItem,
                                QDialogButtonBox, QFrame, QGraphicsScene,
                                QGraphicsView, QGridLayout, QGraphicsItem,
                                QLabel, QLineEdit, QPushButton, QSizePolicy,
                                QSpinBox, QStyle, QWidget)
-from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QIcon,
+from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QIcon,
                            QImage, QPainter, QPainterPath, QPixmap,
-                           QRadialGradient, QRegExpValidator, QCursor,
+                           QRadialGradient, QRegularExpressionValidator, QCursor,
                            QScreen)
 from math import degrees, radians, sqrt, atan2, sin, cos, pi
 import random
@@ -302,8 +302,8 @@ class colorPicker(QDialog):
         self.htmlInput.setFixedSize(35 + 22 + h_spc, 22)  # spans 2 cols
         self.htmlInput.setPlaceholderText('html')
         self.htmlInput.setAlignment(Qt.AlignCenter)
-        regex = QRegExp('[0-9A-Fa-f]{1,6}')
-        valid = QRegExpValidator(regex)
+        regex = QRegularExpression('[0-9A-Fa-f]{1,6}')
+        valid = QRegularExpressionValidator(regex)
         self.htmlInput.setValidator(valid)
 
         self.htmlLabel = QLabel('&#')
@@ -392,7 +392,8 @@ class colorPicker(QDialog):
         #self.inputGrid.addWidget(self.dialogButtons, 6, 0, 1, 7)
 
         #self.setWindowTitle('Select color')
-        ico = self.style().standardIcon(QStyle.SP_DialogResetButton)
+        style = QApplication.style()
+        ico = style.standardIcon(QStyle.SP_DialogResetButton)
         self.setWindowIcon(ico)
         self.setLayout(self.inputGrid)
         self.setFixedSize(self.sizeHint())
@@ -514,7 +515,7 @@ class wheel(QWidget):
 
     def paintEvent(self, event):
         painter = QPainter(self)
-        painter.setRenderHint(painter.Antialiasing)
+        painter.setRenderHint(painter.RenderHint.Antialiasing)
 
         painter.setBrush(QBrush(Qt.black, Qt.SolidPattern))
         painter.drawPie(self.vIdBox, 16 * (degrees(self.vIdAng) - 22.5), 720)
